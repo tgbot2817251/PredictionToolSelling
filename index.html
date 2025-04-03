@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>BIG SMALL PREDICTION TOOL</title>
     <style>
         * {
@@ -16,18 +16,20 @@
             color: #fff;
             text-align: center;
             padding: 20px;
+            overflow-x: hidden;
+            max-width: 480px;
+            margin: auto;
         }
         .card {
             background: #111;
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
-            max-width: 300px;
             margin: auto;
         }
         .product {
-            width: 50%;
-            max-width: 120px;
+            width: 80%;
+            max-width: 150px;
             border-radius: 10px;
             display: block;
             margin: 10px auto;
@@ -61,32 +63,35 @@
             overflow-x: auto;
             gap: 10px;
             margin: 20px 0;
+            padding: 10px;
+            scroll-snap-type: x mandatory;
         }
         .media-container img, .media-container video {
-            width: 180px;
-            height: 180px;
+            width: 140px;
+            height: 140px;
             border-radius: 5px;
             border: 3px solid transparent;
             box-shadow: 0 0 15px yellow;
+            cursor: pointer;
             transition: all 0.3s ease;
-        }
-        .media-container img:hover, .media-container video:hover {
-            box-shadow: 0 0 20px rgba(255, 255, 0, 1);
+            scroll-snap-align: center;
         }
         .full-screen {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: black;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 1000;
         }
         .full-screen video, .full-screen img {
-            width: 90%;
-            max-height: 80vh;
+            width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
         }
         .close-btn {
             position: absolute;
@@ -94,9 +99,11 @@
             left: 10px;
             background: red;
             color: white;
-            padding: 5px 10px;
+            padding: 10px 15px;
+            font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
+            z-index: 1001;
         }
         .support-container {
             margin: 20px 0;
@@ -113,25 +120,17 @@
     </style>
 </head>
 <body>
-
-    <div class="menu" onclick="toggleMenu()">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
     <div class="card">
         <img src="pimage.png" alt="Product Image" class="product">
         <h2>BIG SMALL GAME PREDICTION TOOL</h2>
         <p class="price">₹555 <span class="old-price">₹999</span></p>
         <a href="https://superprofile.bio/vp/67ea3eb52265c4001304ca41" class="buy-btn">BUY NOW</a>
     </div>
-    <br>
     <h2>Winning Videos</h2>
     <div class="media-container" id="video-container">
-        <video src="video1.mp4" onclick="openMedia(this)" autoplay loop></video>
-        <video src="video2.mp4" onclick="openMedia(this)" autoplay loop></video>
+        <video src="video1.mp4" onclick="openMedia(this)" loop></video>
+        <video src="video2.mp4" onclick="openMedia(this)" loop></video>
     </div>
-    
     <h2>Winning Images</h2>
     <div class="media-container" id="image-container">
         <img src="win1.png" onclick="openMedia(this)">
@@ -143,51 +142,43 @@
         <img src="win7.png" onclick="openMedia(this)">
         <img src="win8.png" onclick="openMedia(this)">
     </div>
-    
     <h2>Voice Message</h2>
     <audio controls>
         <source src="vm.mp3" type="audio/mpeg">
     </audio>
-    
     <div class="support-container">
         <h2>Customer Support</h2>
-        <a href="predictiontools1@gmail.com" class="support-btn">Gmail</a>
         <a href="https://t.me/PredictionTools1Bot" class="support-btn">Telegram</a>
     </div>
-    
-    <h2>Disclaimer</h2>
-    <p>• यह tool केवल analysis और prediction के लिए बनाया गया है। कोई भी guaranteed win या sure-shot profit का दावा नहीं किया जाता। <br>
-
-        • इस tool का उपयोग पूरी तरह से आपकी स्वयं की जिम्मेदारी होगी। हम किसी भी प्रकार के लाभ या हानि के लिए उत्तरदायी नहीं हैं। <br>
-        
-        • कृपया अपनी risk पर खेलें और कोई भी निर्णय सोच-समझकर लें। <br>
-        
-        • इस tool का उपयोग किसी भी गैरकानूनी गतिविधि के लिए न करें।</p>
-    <br> <br>
+    <h5>Disclaimer</h5>
+    <p>• यह tool केवल analysis और prediction के लिए बनाया गया है।<br>
+       • इस tool का उपयोग पूरी तरह से आपकी स्वयं की जिम्मेदारी होगी। हम किसी भी प्रकार के लाभ या हानि के लिए उत्तरदायी नहीं हैं। <br>
+       • कृपया अपनी risk पर खेलें और कोई भी निर्णय सोच-समझकर लें।
+    </p>
     <footer>
         <p>&copy; 2025 Big Small prediction tool. All rights reserved.</p>
     </footer>
-    
     <script>
         function openMedia(element) {
+            document.body.style.overflow = "hidden";
             let fullscreenDiv = document.createElement("div");
             fullscreenDiv.className = "full-screen";
-            
             let closeButton = document.createElement("div");
             closeButton.className = "close-btn";
             closeButton.innerText = "Back";
-            closeButton.onclick = function() { document.body.removeChild(fullscreenDiv); };
-            
+            closeButton.onclick = function() { 
+                document.body.removeChild(fullscreenDiv);
+                document.body.style.overflow = "auto";
+            };
             let mediaClone = element.cloneNode(true);
             mediaClone.removeAttribute("onclick");
-            
+            if (mediaClone.tagName === "VIDEO") {
+                mediaClone.controls = true;
+                mediaClone.loop = false;
+            }
             fullscreenDiv.appendChild(closeButton);
             fullscreenDiv.appendChild(mediaClone);
             document.body.appendChild(fullscreenDiv);
-        }
-        function toggleMenu() {
-            let menu = document.getElementById("menu-items");
-            menu.style.display = menu.style.display === "block" ? "none" : "block";
         }
     </script>
 </body>
