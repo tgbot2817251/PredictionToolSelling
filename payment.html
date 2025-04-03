@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .card {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.8);
+            max-width: 400px;
+            margin: auto;
+        }
+        .qr-code {
+            width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #ff5733;
+            color: white;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 10px red;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px yellow;
+        }
+        .modal button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .gmail-btn {
+            background: #008CBA;
+            color: white;
+        }
+        .telegram-btn {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Payment</h2>
+        <img src="qr-code.png" alt="QR Code" class="qr-code">
+        <p>UPI ID: yourupi@upi</p>
+        
+        <input type="email" id="email" class="input-field" placeholder="Enter your Gmail ID">
+        <input type="text" id="utr" class="input-field" placeholder="Enter UTR Number">
+        <input type="file" id="screenshot" class="input-field">
+        
+        <button class="submit-btn" onclick="openModal()">Submit</button>
+    </div>
+
+    <!-- Modal for sending details -->
+    <div id="sendModal" class="modal">
+        <h3>Send Payment Details</h3>
+        <button class="gmail-btn" onclick="sendGmail()">Send via Gmail</button>
+        <button class="telegram-btn" onclick="sendTelegram()">Send via Telegram</button>
+    </div>
+
+    <script>
+        function openModal() {
+            let email = document.getElementById('email').value;
+            let utr = document.getElementById('utr').value;
+            let screenshot = document.getElementById('screenshot').files[0];
+
+            if (!email || !utr || !screenshot) {
+                alert("Please fill all fields and upload the screenshot.");
+                return;
+            }
+
+            document.getElementById('sendModal').style.display = 'block';
+        }
+
+        function sendGmail() {
+            let email = document.getElementById('email').value;
+            let utr = document.getElementById('utr').value;
+
+            let subject = encodeURIComponent("Payment Verification");
+            let body = encodeURIComponent(`Gmail: ${email}\nUTR Number: ${utr}\nScreenshot: [Attached]`);
+
+            window.location.href = `mailto:predictiontools1@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        function sendTelegram() {
+            let email = document.getElementById('email').value;
+            let utr = document.getElementById('utr').value;
+
+            let message = encodeURIComponent(`Gmail: ${email}\nUTR Number: ${utr}\nScreenshot: [Attached]`);
+
+            window.location.href = `https://t.me/PredictionTools1Bot?text=${message}`;
+        }
+    </script>
+</body>
+</html>
